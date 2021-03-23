@@ -30,7 +30,7 @@ export default function RecipeDetails(props) {
 
     function showSpecial(item){
         return(
-            <span><b>Special:</b> {item.title}, {item.type}, {item.text}</span>
+            <p><b>Special: {item.title}, {item.type}, {item.text}</b></p>
         )
     }
 
@@ -39,8 +39,10 @@ export default function RecipeDetails(props) {
         const special = specials.filter(s => s.ingredientId === ing.uuid)
 
         return(
-            <p key={index}>{ing.amount} {ing.measurement} of {ing.name} {special.length > 0 ? showSpecial(special[0]):null}</p>
-            
+            <div>
+                <p key={index}>{ing.amount} {ing.measurement} of {ing.name} </p>
+                {special.length > 0 ? showSpecial(special[0]):null}
+            </div>
         );
     }
 

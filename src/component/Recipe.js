@@ -12,7 +12,9 @@ export default function Recipe() {
         console.log(responseText);
 
         return (
-            <RecipeDetails key={index} entry={entry}/>
+            <div key={index} className="recipeTitle">
+                <RecipeDetails entry={entry}/>
+            </div>
         )
     }
 

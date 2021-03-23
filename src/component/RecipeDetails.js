@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const apiUrl = 'http://localhost:3001';
-
 export default function RecipeDetails(props) {
 
     const [clicked, setClicked] = useState(false);
+    const [specials, setSpecials] = useState([]);
+
+    useEffect(() => {
+        // GET request using axios inside useEffect React hook
+        axios.get('http://localhost:3001/specials')
+            .then(response => setSpecials(response.data));
+
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
 
     function updateState(event){
         
@@ -19,10 +28,20 @@ export default function RecipeDetails(props) {
 		setClicked(false);
     }
 
-    function showIngredients(ing, index){
+    function showSpecial(item){
         return(
-        <p key={index}>{ing.amount} {ing.measurement} of {ing.name}</p>
+            <span><b>Special:</b> {item.title}, {item.type}, {item.text}</span>
         )
+    }
+
+    function showIngredients(ing, index){
+
+        const special = specials.filter(s => s.ingredientId === ing.uuid)
+
+        return(
+            <p key={index}>{ing.amount} {ing.measurement} of {ing.name} {special.length > 0 ? showSpecial(special[0]):null}</p>
+            
+        );
     }
 
     function showDirections(dir, index){
